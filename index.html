@@ -3,12 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QR и Barcode Генератор от Димана</title>
-<!-- Подключаем скрипт для генерации штрих-кода -->
-<script src="https://unpkg.com/bwip-js"></script>
+
+<title>QR Генератор от Димана v1</title>
 <link rel="shortcut icon" href="icon.ico" type="image/x-icon">
 <link rel="stylesheet" href="styles.css">
-<link rel="stylesheet" href="media.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="apple-touch-icon" href="/icon.png">
@@ -16,14 +14,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>QR и Barcode Генератор от Димана</h1>
-    <div class="container">
-        <input class="order__input" id="qr-text" placeholder="Введите текст">
-        <div id="qr-code">
-            <p>Введите текст в поле ввода, чтобы сгенерировать QR-код.</p>
-        </div>
-        <button class="print__code" onclick="printQRCode()">Печать QR Code</button>
-    </div>
+    <div class="gradientBg"></div>
+    <div id="particle-container"></div>
+    <a class="linkHolder" href="https://rocan5.github.io/QR-For-Yandex/" target="_blank">
+        <img src="/peach-goma.gif" alt="kitty" style="
+        margin-bottom: 50px;">
+        <p>Новая версия приложения</p>
+        <i class="fa-solid fa-arrow-right"></i>
+    </a>
     <script src="app.js"></script>
+    <script src="https://kit.fontawesome.com/ffceda30b6.js" crossorigin="anonymous"></script>
 </body>
 </html>

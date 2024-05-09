@@ -1,74 +1,59 @@
-
-document.getElementById("qr-text").addEventListener("input", function() {
-    generateCodes();
-});
-
-function generateCodes() {
-    var qrText = document.getElementById("qr-text").value;
-    var qrCodeDiv = document.getElementById("qr-code");
-    qrCodeDiv.innerHTML = "";
-
-    if (qrText.trim() === "") {
-        var messageElement = document.createElement("p");
-        messageElement.textContent = "Введите текст в поле ввода, чтобы сгенерировать QR-код.";
-        qrCodeDiv.appendChild(messageElement);
-        return;
-    }
-
-    // Создание и добавление h1 "СЦ Воронеж" и span с датой и временем в один div
-    var companyInfoDiv = document.createElement("div");
-    companyInfoDiv.id = "company-info";
-    var companyName = document.createElement("h1");
-    companyName.textContent = "СЦ Воронеж";
-    var dateTime = document.createElement("span");
-    dateTime.id = "datetime";
-    dateTime.textContent = getCurrentDateTime();
-    companyInfoDiv.appendChild(companyName);
-    companyInfoDiv.appendChild(dateTime);
-    qrCodeDiv.appendChild(companyInfoDiv);
-
-    // Генерация QR-кода
-    var qrCode = document.createElement("img");
-    qrCode.src = "https://api.qrserver.com/v1/create-qr-code/?data=" + encodeURIComponent(qrText) + "&size=200x200";
-    qrCode.alt = "QR Code";
-    qrCodeDiv.appendChild(qrCode);
-
-    var qrTextElement = document.createElement("p");
-    qrTextElement.textContent = qrText;
-    qrCodeDiv.appendChild(qrTextElement);
-
-    // Ограничение на генерацию баркода
-    if (qrText.trim().length >= 9 && qrText.trim().length <= 28) {
-        var barcodeCanvas = document.createElement("canvas");
-        barcodeCanvas.id = "barcode";
-        qrCodeDiv.appendChild(barcodeCanvas);
-
-        // Генерация штрих-кода с использованием bwip-js
-        bwipjs.toCanvas(barcodeCanvas, {
-            bcid: "code128",         // Тип штрих-кода
-            text: qrText,            // Текст для кодирования
-            scale: 2,                // Масштаб
-            height: 10,              // Высота
-            includetext: true,       // Включить отображение текста
-            textxalign: "center"     // Выравнивание текста по горизонтали
-        });
-    }
-
-    
+// ? Частицы
+// Функция создания случайного числа между min && max
+function random(min, max) {
+    return Math.random() * (max - min) + min;
 }
 
-function getCurrentDateTime() {
-    var currentDate = new Date();
-    var day = currentDate.getDate();
-    var month = currentDate.getMonth() + 1;
-    var year = currentDate.getFullYear();
-    var hours = currentDate.getHours();
-    var minutes = currentDate.getMinutes();
-    var seconds = currentDate.getSeconds();
-    return (day < 10 ? '0' : '') + day + '.' + (month < 10 ? '0' : '') + month + '.' + year + ' ' +
-           (hours < 10 ? '0' : '') + hours + ':' + (minutes < 10 ? '0' : '') + minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+// FСоздание частиц
+function createParticle() {
+    const particle = document.createElement('div');
+    particle.classList.add('particle');
+    const size = random(2, 6);
+    particle.style.width = `${size}px`;
+    particle.style.height = `${size}px`;
+    particle.style.left = `${random(0, window.innerWidth)}px`;
+    particle.style.top = '-10px';
+    particle.style.opacity = random(0.3, 1);
+    document.getElementById('particle-container').appendChild(particle);
+
+    // Анимация движения и смены цвета
+    const animation = particle.animate([
+        { top: '-10px', backgroundColor: '#FFE017' },
+        { top: '100vh', backgroundColor: '#B3FF00' }
+    ], {
+        duration: random(4000, 12000),
+        easing: 'linear',
+        iterations: 1
+    });
+
+    // Убирает частицы после анимацмя или когда ушли за экран
+    animation.onfinish = () => {
+        particle.remove();
+    };
+    animation.oncancel = () => {
+        particle.remove();
+    };
 }
 
-function printQRCode() {
-    window.print();
-}
+// Переодичность создания частиц
+setInterval(createParticle, 100);
+
+// Убирает частицы за экраном
+setInterval(() => {
+    const particles = document.querySelectorAll('.particle');
+    particles.forEach(particle => {
+        const rect = particle.getBoundingClientRect();
+        if (rect.top > window.innerHeight) {
+            particle.remove();
+        }
+    });
+}, 500);
+
+const linkHolder = document.querySelector(".linkHolder")
+const iconAnimation = document.querySelector(".fa-arrow-right")
+linkHolder.addEventListener("mouseover", ()=>{
+    iconAnimation.classList.add("fa-bounce");
+})
+linkHolder.addEventListener("mouseleave", ()=>{
+    iconAnimation.classList.remove("fa-bounce");
+})
